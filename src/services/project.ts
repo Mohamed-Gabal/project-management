@@ -1,3 +1,5 @@
+import { ProjectFormValues } from "@/lib/validations/project";
+
 export async function createProject(data: ProjectFormValues) {
   try {
     const response = await fetch("/api/project", {

@@ -44,13 +44,8 @@ export async function POST(request: Request) {
     body: JSON.stringify(body),
   });
 
-  console.log("status:", response.status);
-  console.log("content-type:", response.headers.get("content-type"));
-
   if (!response.ok) {
     const result = await response.json();
-
-    console.log(result);
 
     return NextResponse.json(result, {
       status: response.status,
