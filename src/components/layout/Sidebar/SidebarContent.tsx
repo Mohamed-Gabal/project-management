@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 
 import logoIcon from "@/assets/icons/logo.svg";
 import collapseIcon from "@/assets/icons/collapse.svg";
 import logoutIcon from "@/assets/icons/logout.svg";
 
-import { sidebarLinks } from "@/constants/sidebar-links";
+import { getSidebarLinks } from "@/constants/sidebar-links";
 import SidebarItem from "./SidebarItem";
 
 type SidebarContentProps = {
@@ -23,6 +23,11 @@ const SidebarContent = ({
   onToggleCollapse,
 }: SidebarContentProps) => {
   const pathname = usePathname();
+  const params = useParams();
+
+  const projectId = params.projectId as string;
+
+  const sidebarLinks = getSidebarLinks(projectId);
 
   return (
     <>

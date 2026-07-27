@@ -9,8 +9,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProjectSchema, ProjectFormValues } from "@/lib/validations/project";
 import { createProject } from "@/services/project";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const AddProjectPage = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -36,6 +39,7 @@ const AddProjectPage = () => {
     }
 
     toast.success(result.data.message);
+    router.push("/project");
     reset();
   };
 

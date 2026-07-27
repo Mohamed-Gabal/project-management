@@ -4,7 +4,7 @@ import TaskIcon from "@/assets/icons/task.svg";
 import MemberIcon from "@/assets/icons/members.svg";
 import DetailsIcon from "@/assets/icons/details.svg";
 
-export const sidebarLinks = [
+export const getSidebarLinks = (projectId: string) => [
   {
     label: "Projects",
     mobileLabel: "Projects",
@@ -14,25 +14,25 @@ export const sidebarLinks = [
   {
     label: "Project Epics",
     mobileLabel: "Epics",
-    href: "/project/epics",
+    href: `/project/${projectId}/epics`,
     icon: EpicsIcon,
   },
   {
     label: "Project Tasks",
     mobileLabel: "Tasks",
-    href: "/project/tasks",
+    href: `/project/${projectId}/tasks`,
     icon: TaskIcon,
   },
   {
     label: "Project Members",
     mobileLabel: "Members",
-    href: "/project/members",
+    href: `/project/${projectId}/members`,
     icon: MemberIcon,
   },
   {
     label: "Project Details",
     mobileLabel: "Details",
-    href: "/project/details",
+    href: `/project/${projectId}/edit`,
     icon: DetailsIcon,
   },
 ];

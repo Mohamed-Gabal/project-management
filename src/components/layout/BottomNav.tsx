@@ -2,11 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { sidebarLinks } from "@/constants/sidebar-links";
+import { usePathname, useParams } from "next/navigation";
+import { getSidebarLinks } from "@/constants/sidebar-links";
 
 const BottomNav = () => {
   const pathname = usePathname();
+  const params = useParams();
+  const projectId = params.projectId as string;
+
+  const sidebarLinks = getSidebarLinks(projectId);
 
   return (
     <nav
