@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
+import { getSupabaseConfig } from "@/lib/supabase/env";
 
 export async function POST(request: Request) {
+  // Read login credentials from the request body
   const { email, password, rememberMe } = await request.json();
 
-  const apiUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  // Get Supabase configuration
+  const { apiUrl, anonKey } = getSupabaseConfig();
 
   if (!apiUrl || !anonKey) {
     return NextResponse.json(
@@ -33,10 +35,12 @@ export async function POST(request: Request) {
     });
   }
 
+  // Create the API response
   const res = NextResponse.json(result, {
     status: response.status,
   });
 
+  // Store the authenticated user session in a secure HTTP-only cookie
   res.cookies.set(
     "supabase_session",
     JSON.stringify({

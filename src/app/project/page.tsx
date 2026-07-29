@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProjects } from "@/services/getProject";
+import { getProjects } from "@/services/project";
 import { useRouter } from "next/navigation";
 import ProjectCard from "@/components/project/ProjectCard";
 import ProjectsHeader from "@/components/project/ProjectsHeader";

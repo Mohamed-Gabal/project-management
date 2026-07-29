@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { getSupabaseConfig } from "@/lib/supabase/env";
+import { getAccessToken } from "@/lib/auth/getAccessToken";
 
 export async function GET() {
-  const apiUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  // Get Supabase configuration
+  const { apiUrl, anonKey } = getSupabaseConfig();
 
   if (!apiUrl || !anonKey) {
     return NextResponse.json(
@@ -16,11 +17,9 @@ export async function GET() {
     );
   }
 
-  const cookieStore = await cookies();
+  const accessToken = await getAccessToken();
 
-  const session = cookieStore.get("supabase_session");
-
-  if (!session) {
+  if (!accessToken) {
     return NextResponse.json(
       {
         message: "No session found",
@@ -31,13 +30,11 @@ export async function GET() {
     );
   }
 
-  const { access_token } = JSON.parse(session.value);
-
   const response = await fetch(`${apiUrl}/auth/v1/user`, {
     method: "GET",
     headers: {
       apikey: anonKey,
-      Authorization: `Bearer ${access_token}`,
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
   });

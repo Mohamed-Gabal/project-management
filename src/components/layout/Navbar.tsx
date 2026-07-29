@@ -7,12 +7,15 @@ import Image from "next/image";
 import { logout } from "@/services/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { getInitials } from "@/lib/utils/getInitials";
 
+// Navbar component props
 type NavbarProps = {
   isMenuOpen: boolean;
   onMenuClick: () => void;
 };
 
+// User object returned from Supabase
 type User = {
   user_metadata: {
     name: string;
@@ -21,9 +24,10 @@ type User = {
 };
 
 const Navbar = ({ onMenuClick }: NavbarProps) => {
+  // Store authenticated user information
   const [user, setUser] = useState<User | null>(null);
 
-  // State For Dropdown
+  // Control logout dropdown visibility
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
 
@@ -42,33 +46,22 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
     router.replace("/login");
   };
 
-  useEffect(() => {
-    async function fetchUser() {
-      const result = await getUser();
+  // Fetch authenticated user data
+  const fetchUser = async () => {
+    const result = await getUser();
 
-      if (result.ok) {
-        setUser(result.data);
-      }
+    if (result.ok) {
+      setUser(result.data);
     }
+  };
 
+  useEffect(() => {
     fetchUser();
   }, []);
 
-  const getInitials = (name: string) => {
-    if (!name) return "";
-
-    const words = name.trim().split(" ");
-
-    if (words.length === 1) {
-      return words[0].slice(0, 2).toUpperCase();
-    }
-
-    return (words[0][0] + words[1][0]).toUpperCase();
-  };
-
   return (
     <header className="flex h-20 items-center lg:justify-end justify-between border-b border-neutral-light bg-surface px-6">
-      {/* Burger menu will be added in responsive step */}
+      {/* Mobile Menu Button */}
       <button
         type="button"
         onClick={onMenuClick}
@@ -80,7 +73,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
 
       {/* Right section user info + avatar */}
       <div className="relative flex items-center gap-4">
-        {/* User information */}
+        {/* User Information */}
         <div className="text-right">
           <p className="text-title-md font-semibold text-neutral-dark">
             {user?.user_metadata.name || "User Name"}
@@ -91,7 +84,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
           </p>
         </div>
 
-        {/* User avatar */}
+        {/* User Avatar */}
         <button
           type="button"
           onClick={() => setIsDropdownOpen((prev) => !prev)}
@@ -99,7 +92,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
         >
           {getInitials(user?.user_metadata.name || "")}
         </button>
-        {/* Dropdown For Logout */}
+        {/* Logout Dropdown */}
         {isDropdownOpen && (
           <div className="absolute right-0 top-12 z-50 w-44 rounded-lg border border-black/10 bg-white p-2 shadow-lg">
             <button

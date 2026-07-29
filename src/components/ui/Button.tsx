@@ -1,3 +1,4 @@
+// Reusable button component used across the application
 import { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}

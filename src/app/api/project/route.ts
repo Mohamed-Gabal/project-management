@@ -1,10 +1,10 @@
-import { cookies } from "next/headers";
+import { getSupabaseConfig } from "@/lib/supabase/env";
+import { getAccessToken } from "@/lib/auth/getAccessToken";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const apiUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
+  // Get Supabase configuration
+  const { apiUrl, anonKey } = getSupabaseConfig();
   if (!apiUrl || !anonKey) {
     return NextResponse.json(
       {
@@ -16,10 +16,8 @@ export async function POST(request: Request) {
     );
   }
 
-  const cookieStore = await cookies();
-  const session = cookieStore.get("supabase_session");
-
-  if (!session) {
+  const accessToken = await getAccessToken();
+  if (!accessToken) {
     return NextResponse.json(
       {
         message: "User is not authenticated.",
@@ -30,15 +28,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const { access_token } = JSON.parse(session.value);
-
   const body = await request.json();
 
   const response = await fetch(`${apiUrl}/rest/v1/projects`, {
     method: "POST",
     headers: {
       apikey: anonKey,
-      Authorization: `Bearer ${access_token}`,
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),

@@ -160,8 +160,6 @@ const AddProjectPage = () => {
           </div>
         </form>
 
-        {/* Actions */}
-
         {/* Footer */}
         <div className="flex items-center gap-2 bg-surface-low px-4 py-4 md:px-8 md:py-5">
           <Image

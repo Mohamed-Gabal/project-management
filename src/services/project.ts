@@ -1,5 +1,6 @@
 import { ProjectFormValues } from "@/lib/validations/project";
 
+// Create
 export async function createProject(data: ProjectFormValues) {
   try {
     const response = await fetch("/api/project", {
@@ -31,4 +32,81 @@ export async function createProject(data: ProjectFormValues) {
       message: "Unable to connect. Please try again later.",
     };
   }
+}
+
+// Fetch all projects for the authenticated user
+export async function getProjects() {
+  const response = await fetch("/api/getProject");
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      message: result.message,
+      code: result.code,
+    };
+  }
+
+  return {
+    status: response.status,
+    ok: true,
+    data: result,
+  };
+}
+
+// Fetch a single project using its unique project ID
+export async function getProjectId(projectId: string) {
+  const response = await fetch(`/api/getProjectById/${projectId}`);
+
+  // Parse the JSON response returned from the API
+  const result = await response.json();
+
+  // Check if the API request failed
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      message: result.message,
+      code: result.code,
+    };
+  }
+
+  // Return the project data when the request succeeds
+  return {
+    ok: true,
+    status: response.status,
+    data: result,
+  };
+}
+
+// Update an existing project
+export async function updateProject(
+  projectId: string,
+  data: ProjectFormValues,
+) {
+  const response = await fetch(`/api/project/${projectId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      message: result.message,
+    };
+  }
+
+  return {
+    ok: true,
+    status: response.status,
+    data: result,
+  };
 }

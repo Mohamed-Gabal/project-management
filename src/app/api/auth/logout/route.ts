@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
+import { getSupabaseConfig } from "@/lib/supabase/env";
+import { getAccessToken } from "@/lib/auth/getAccessToken";
 import { cookies } from "next/headers";
 
 export async function POST() {
-  const apiUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  // Get Supabase configuration
+  const { apiUrl, anonKey } = getSupabaseConfig();
 
   if (!apiUrl || !anonKey) {
     return NextResponse.json(
@@ -16,11 +18,9 @@ export async function POST() {
     );
   }
 
-  const cookieStore = await cookies();
+  const accessToken = await getAccessToken();
 
-  const session = cookieStore.get("supabase_session");
-
-  if (!session) {
+  if (!accessToken) {
     return NextResponse.json(
       {
         message: "User is not authenticated.",
@@ -31,13 +31,11 @@ export async function POST() {
     );
   }
 
-  const { access_token } = JSON.parse(session.value);
-
   const response = await fetch(`${apiUrl}/auth/v1/logout`, {
     method: "POST",
     headers: {
       apikey: anonKey,
-      Authorization: `Bearer ${access_token}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
@@ -49,6 +47,8 @@ export async function POST() {
     });
   }
 
+  // logout request to Supabase
+  const cookieStore = await cookies();
   cookieStore.delete("supabase_session");
 
   return NextResponse.json(

@@ -1,5 +1,5 @@
-import type { SignUpFormValues } from "@/lib/validations/sign-up";
 import type { LoginFormValues } from "@/lib/validations/login";
+import type { SignUpFormValues } from "@/lib/validations/sign-up";
 
 // Fetch Api For SignUp Component
 export async function signUp(data: SignUpFormValues) {
@@ -50,7 +50,7 @@ export async function signUp(data: SignUpFormValues) {
   }
 }
 
-// Fetch Api For Login Component
+// Authenticate the user using email and password
 export async function login(data: LoginFormValues) {
   try {
     const response = await fetch("/api/auth/login", {
@@ -82,7 +82,7 @@ export async function login(data: LoginFormValues) {
   }
 }
 
-// Fetch Api For ForgotPassword Component
+// Send password reset email
 export async function requestPasswordReset(email: string) {
   const apiUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
