@@ -26,6 +26,20 @@ const ProjectPage = () => {
   const [status, setStatus] = useState<PageStatus>("loading");
   const [projects, setProjects] = useState<Project[]>([]);
 
+  // Current page for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Total number of projects
+  const [totalCount, setTotalCount] = useState(0);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Number of projects displayed per page
+  const limit = 10;
+
+  // Calculate How Many Projects To Skip Before Fetching the Current Page
+  const offset = (currentPage - 1) * limit;
+
   // Format Project Creation Date To: DD MM YYYY
   const formatDate = (data: string) => {
     return new Date(data).toLocaleDateString("en-GB", {
@@ -38,7 +52,7 @@ const ProjectPage = () => {
   const loadProjects = async () => {
     setStatus("loading");
 
-    const result = await getProjects();
+    const result = await getProjects(limit, offset);
 
     if (!result.ok && result.status === 401) {
       router.push("/login");
@@ -52,12 +66,56 @@ const ProjectPage = () => {
       setStatus("empty");
       return;
     }
-    setProjects(result.data);
+
+    // Append new projects when loading additional pages on mobile
+    if (currentPage === 1) {
+      setProjects(result.data);
+    } else {
+      setProjects((prev) => [...prev, ...result.data]);
+    }
+    // Save total projects count
+    setTotalCount(result.totalCount);
     setStatus("success");
   };
+
+  // Update projects list whenever the current page changes
   useEffect(() => {
     loadProjects();
+  }, [currentPage]);
+
+  // Detect screen size to enable infinite scroll only on mobile devices
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkScreen();
+
+    window.addEventListener("resize", checkScreen);
+    return () => window.removeEventListener("resize", checkScreen);
   }, []);
+
+  // Load the next page automatically when the user reaches the bottom of the page on mobile
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      if (scrollTop + windowHeight >= documentHeight - 100) {
+        const totalPages = Math.ceil(totalCount / limit);
+
+        if (currentPage >= totalPages) return;
+
+        setCurrentPage((prev) => prev + 1);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isMobile, currentPage, totalCount]);
 
   return (
     // Project Grid Section: Flow=Vertical, Width=Fill(1024), Padding=32, Gap=40
@@ -92,7 +150,12 @@ const ProjectPage = () => {
             ))}
             <AddProjectCard onClick={() => router.push("/project/add")} />
           </div>
-          <Pagination />
+          <Pagination
+            currentPage={currentPage}
+            totalCount={totalCount}
+            limit={limit}
+            onPageChange={setCurrentPage}
+          />
         </>
       )}
     </section>

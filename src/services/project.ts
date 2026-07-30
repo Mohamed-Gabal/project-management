@@ -35,8 +35,10 @@ export async function createProject(data: ProjectFormValues) {
 }
 
 // Fetch all projects for the authenticated user
-export async function getProjects() {
-  const response = await fetch("/api/getProject");
+export async function getProjects(limit: number, offset: number) {
+  const response = await fetch(
+    `/api/getProject?limit=${limit}&offset=${offset}`,
+  );
 
   const result = await response.json();
 
@@ -52,7 +54,8 @@ export async function getProjects() {
   return {
     status: response.status,
     ok: true,
-    data: result,
+    data: result.projects,
+    totalCount: result.totalCount,
   };
 }
 
