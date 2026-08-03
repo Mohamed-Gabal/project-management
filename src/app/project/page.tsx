@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react";
 import { getProjects } from "@/services/project";
 import { useRouter } from "next/navigation";
+import PlusIcon from "@/assets/icons/plus.svg";
 import ProjectCard from "@/components/project/ProjectCard";
 import ProjectsHeader from "@/components/project/ProjectsHeader";
-import ProjectSkeleton from "@/components/project/ProjectSkeleton";
+import ProjectSkeleton from "@/components/ui/ProjectSkeleton";
 import Pagination from "@/components/project/Pagination";
-import ProjectsErrorState from "@/components/project/ProjectsErrorState";
-import ProjectsEmptyState from "@/components/project/ProjectsEmptyState";
+import ProjectsErrorState from "@/components/ui/ProjectsErrorState";
+import ProjectsEmptyState from "@/components/ui/ProjectsEmptyState";
 import AddProjectCard from "@/components/project/AddProjectCard";
 
 type PageStatus = "loading" | "success" | "empty" | "error";
@@ -68,10 +69,10 @@ const ProjectPage = () => {
     }
 
     // Append new projects when loading additional pages on mobile
-    if (currentPage === 1) {
-      setProjects(result.data);
-    } else {
+    if (isMobile && currentPage > 1) {
       setProjects((prev) => [...prev, ...result.data]);
+    } else {
+      setProjects(result.data);
     }
     // Save total projects count
     setTotalCount(result.totalCount);
@@ -81,7 +82,7 @@ const ProjectPage = () => {
   // Update projects list whenever the current page changes
   useEffect(() => {
     loadProjects();
-  }, [currentPage]);
+  }, [currentPage, isMobile]);
 
   // Detect screen size to enable infinite scroll only on mobile devices
   useEffect(() => {
@@ -120,7 +121,13 @@ const ProjectPage = () => {
   return (
     // Project Grid Section: Flow=Vertical, Width=Fill(1024), Padding=32, Gap=40
     <section className="w-full mx-auto flex flex-col gap-10 p-8">
-      <ProjectsHeader onCreateProject={() => router.push("/project/add")} />
+      <ProjectsHeader
+        title="Projects"
+        description="Manage and curate your projects"
+        buttonText="Create New Project"
+        buttonIcon={PlusIcon}
+        onButtonClick={() => router.push("/project/add")}
+      />
 
       {status === "loading" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

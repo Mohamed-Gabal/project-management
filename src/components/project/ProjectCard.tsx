@@ -7,7 +7,6 @@ interface ProjectCardProps {
   id: string;
   name: string;
   description: string;
-  // already formatted "DD MMM YYYY"
   createdAt: string;
 }
 

@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import ArrowIcon from "@/assets/icons/arrow-right.svg";
 import TimeIcon from "@/assets/icons/timeProject.svg";
 import ProtipIcon from "@/assets/icons/pro-tip.svg";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { getProjectId, updateProject } from "@/services/project";
-import { useState } from "react";
 import { ProjectFormValues, ProjectSchema } from "@/lib/validations/project";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import BreadCrumb from "@/components/ui/BreadCrumb";
+import Button from "@/components/ui/Button";
 
 const EditPage = () => {
   // Store the current project details
@@ -67,19 +67,14 @@ const EditPage = () => {
 
   return (
     <section className="space-y-4 p-4 md:space-y-6 md:p-6">
-      {/* Breadcrumb - hidden on mobile */}
-      <div className="hidden items-center gap-2 text-label-sm font-bold uppercase tracking-label-sm md:flex">
-        <span className="text-neutral">Projects</span>
-        <Image
-          src={ArrowIcon}
-          alt="ArrowIcon"
-          width={10}
-          height={10}
-          aria-hidden="true"
-        />
-        <span className="text-neutral">Project Title</span>
-        <span className="text-primary">Edit</span>
-      </div>
+      {/* Import Component - Breadcrumb - hidden on mobile */}
+      <BreadCrumb
+        items={[
+          { label: "Projects", href: "/project" },
+          { label: "Project Title" },
+          { label: "Edit" },
+        ]}
+      />
 
       {/* Page Title - hidden on mobile */}
       <h1 className="hidden text-headline-lg font-bold tracking-headline-lg text-neutral-dark md:block">
@@ -174,13 +169,15 @@ const EditPage = () => {
             >
               Cancel
             </button>
-            <button
+
+            {/* Save Project Button */}
+            <Button
               disabled={isSubmitting}
               type="submit"
-              className="w-full rounded-md bg-primary px-6 py-3 text-body-md font-medium text-white shadow-md transition-opacity hover:opacity-90 md:w-auto"
+              className="w-full md:w-auto rounded-md px-6 py-3 text-body-md shadow-md hover:opacity-90"
             >
               {isSubmitting ? "Saving..." : "Save"}
-            </button>
+            </Button>
           </div>
         </form>
 
@@ -194,7 +191,7 @@ const EditPage = () => {
             aria-hidden="true"
           />
           <p className="text-xs text-neutral md:text-body-md">
-            <span className="font-semibold text-neutral-dark">Pro Tip:</span>{" "}
+            <span className="font-semibold text-neutral-dark">Pro Tip:</span>
             You can invite project members and assign epics immediately after
             the initial creation process.
           </p>

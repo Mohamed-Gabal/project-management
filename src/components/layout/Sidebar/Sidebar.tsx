@@ -8,7 +8,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`hidden h-screen flex-col justify-between border-r border-black/10 bg-surface-low p-4 transition-all duration-300 lg:flex ${
+      className={`hidden sticky top-0 h-screen flex-col justify-between border-r border-black/10 bg-surface-low p-4 transition-all duration-300 lg:flex ${
         isCollapse ? "w-20" : "w-64"
       }`}
     >

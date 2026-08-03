@@ -1,29 +1,81 @@
-import Image from "next/image";
-import PlusIcon from "@/assets/icons/plus.svg";
+// import Image from "next/image";
+// import PlusIcon from "@/assets/icons/plus.svg";
+// import Button from "@/components/ui/Button";
+
+// interface ProjectsHeaderProps {
+//   title: string;
+//   description: string;
+//   buttonText: string;
+//   buttonIcon: StaticImageData;
+//   onButtonClick: () => void;
+// }
+
+// interface ProjectsHeaderProps {
+//   onCreateProject: () => void;
+// }
+
+// const ProjectsHeader = ({ onCreateProject }: ProjectsHeaderProps) => {
+//   return (
+//     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+//       <div>
+//         <h1 className="text-headline-lg tracking-headline-lg font-semibold text-neutral-dark">
+//           Projects
+//         </h1>
+//         <p className="text-body-md text-neutral mt-1">
+//           Manage and curate your projects
+//         </p>
+//       </div>
+
+//       {/* Create Project Button */}
+//       <Button
+//         onClick={onCreateProject}
+//         className="w-full sm:w-auto flex items-center justify-center gap-2 h-10 px-4 rounded-md text-surface text-title-md shadow-card"
+//       >
+//         <Image src={PlusIcon} alt="PlusIcon" width={16} height={16} />
+//         Create New Project
+//       </Button>
+//     </div>
+//   );
+// };
+
+// export default ProjectsHeader;
+import Image, { StaticImageData } from "next/image";
+import Button from "@/components/ui/Button";
 
 interface ProjectsHeaderProps {
-  onCreateProject: () => void;
+  title: string;
+  description: string;
+  buttonText: string;
+  buttonIcon: StaticImageData;
+  onButtonClick: () => void;
 }
 
-const ProjectsHeader = ({ onCreateProject }: ProjectsHeaderProps) => {
+const ProjectsHeader = ({
+  title,
+  description,
+  buttonText,
+  buttonIcon,
+  onButtonClick,
+}: ProjectsHeaderProps) => {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h1 className="text-headline-lg tracking-headline-lg font-semibold text-neutral-dark">
-          Projects
+        <h1 className="text-headline-lg font-bold text-neutral-dark">
+          {title}
         </h1>
-        <p className="text-body-md text-neutral mt-1">
-          Manage and curate your projects
-        </p>
+
+        {description && (
+          <p className="text-body-md text-neutral">{description}</p>
+        )}
       </div>
 
-      <button
-        onClick={onCreateProject}
-        className="flex items-center gap-2 h-10 px-4 rounded-md bg-primary text-surface text-title-md font-medium shadow-card hover:bg-primary-container transition-colors duration-300 cursor-pointer"
+      <Button
+        onClick={onButtonClick}
+        className="w-full sm:w-auto flex items-center justify-center gap-2 h-10 px-4 rounded-md text-title-md shadow-card"
       >
-        <Image src={PlusIcon} alt="PlusIcon" width={16} height={16} />
-        Create New Project
-      </button>
+        <Image src={buttonIcon} alt="" width={16} height={16} />
+        {buttonText}
+      </Button>
     </div>
   );
 };

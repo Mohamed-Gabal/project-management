@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import ArrowIcon from "@/assets/icons/arrow-right.svg";
 import TimeIcon from "@/assets/icons/timeProject.svg";
 import ProtipIcon from "@/assets/icons/pro-tip.svg";
 import { useForm } from "react-hook-form";
@@ -10,6 +9,8 @@ import { ProjectSchema, ProjectFormValues } from "@/lib/validations/project";
 import { createProject } from "@/services/project";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import BreadCrumb from "@/components/ui/BreadCrumb";
+import Button from "@/components/ui/Button";
 
 const AddProjectPage = () => {
   const router = useRouter();
@@ -45,18 +46,13 @@ const AddProjectPage = () => {
 
   return (
     <section className="space-y-4 bg-background p-4 md:space-y-6 md:p-6">
-      {/* Breadcrumb - hidden on mobile */}
-      <div className="hidden items-center gap-2 text-label-sm font-bold uppercase tracking-label-sm md:flex">
-        <span className="text-neutral">Projects</span>
-        <Image
-          src={ArrowIcon}
-          alt=""
-          width={10}
-          height={10}
-          aria-hidden="true"
-        />
-        <span className="text-primary">Add New Project</span>
-      </div>
+      {/* Import Component - Breadcrumb - hidden on mobile */}
+      <BreadCrumb
+        items={[
+          { label: "Projects", href: "/project" },
+          { label: "Add New Project" },
+        ]}
+      />
 
       {/* Page Title - hidden on mobile */}
       <h1 className="hidden text-headline-lg font-bold tracking-headline-lg text-neutral-dark md:block">
@@ -150,13 +146,15 @@ const AddProjectPage = () => {
             >
               Back
             </button>
-            <button
+
+            {/* Create Project Button */}
+            <Button
               disabled={isSubmitting}
               type="submit"
-              className="w-full rounded-md bg-primary px-6 py-3 text-body-md font-medium text-white shadow-md transition-opacity hover:opacity-90 md:w-auto"
+              className="w-full md:w-auto rounded-md px-6 py-3 text-body-md shadow-md"
             >
               {isSubmitting ? "Creating..." : "Create Project"}
-            </button>
+            </Button>
           </div>
         </form>
 
