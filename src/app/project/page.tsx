@@ -50,39 +50,76 @@ const ProjectPage = () => {
     });
   };
 
-  const loadProjects = async () => {
-    setStatus("loading");
+  // const loadProjects = async () => {
+  //   setStatus("loading");
 
-    const result = await getProjects(limit, offset);
+  //   const result = await getProjects(limit, offset);
 
-    if (!result.ok && result.status === 401) {
-      router.push("/login");
-      return;
-    }
-    if (!result.ok) {
-      setStatus("error");
-      return;
-    }
-    if (result.data.length === 0) {
-      setStatus("empty");
-      return;
-    }
+  //   if (!result.ok && result.status === 401) {
+  //     router.push("/login");
+  //     return;
+  //   }
+  //   if (!result.ok) {
+  //     setStatus("error");
+  //     return;
+  //   }
+  //   if (result.data.length === 0) {
+  //     setStatus("empty");
+  //     return;
+  //   }
 
-    // Append new projects when loading additional pages on mobile
-    if (isMobile && currentPage > 1) {
-      setProjects((prev) => [...prev, ...result.data]);
-    } else {
-      setProjects(result.data);
-    }
-    // Save total projects count
-    setTotalCount(result.totalCount);
-    setStatus("success");
-  };
+  //   // Append new projects when loading additional pages on mobile
+  //   if (isMobile && currentPage > 1) {
+  //     setProjects((prev) => [...prev, ...result.data]);
+  //   } else {
+  //     setProjects(result.data);
+  //   }
+  //   // Save total projects count
+  //   setTotalCount(result.totalCount);
+  //   setStatus("success");
+  // };
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    const loadProjects = async () => {
+      setStatus("loading");
+      const result = await getProjects(limit, offset);
+
+      if (isCancelled) return;
+
+      if (!result.ok && result.status === 401) {
+        router.push("/login");
+        return;
+      }
+      if (!result.ok) {
+        setStatus("error");
+        return;
+      }
+      if (result.data.length === 0) {
+        setStatus("empty");
+        return;
+      }
+      if (isMobile && currentPage > 1) {
+        setProjects((prev) => [...prev, ...result.data]);
+      } else {
+        setProjects(result.data);
+      }
+      setTotalCount(result.totalCount);
+      setStatus("success");
+    };
+
+    loadProjects();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [currentPage, isMobile]);
 
   // Update projects list whenever the current page changes
-  useEffect(() => {
-    loadProjects();
-  }, [currentPage, isMobile]);
+  // useEffect(() => {
+  //   loadProjects();
+  // }, [currentPage, isMobile]);
 
   // Detect screen size to enable infinite scroll only on mobile devices
   useEffect(() => {

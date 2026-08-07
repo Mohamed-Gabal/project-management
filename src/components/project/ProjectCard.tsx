@@ -20,7 +20,7 @@ const ProjectCard = ({
 
   return (
     <article
-      onClick={() => router.push(`/project/${id}/epics`)}
+      onClick={() => router.push(`/project/${id}/epics/new`)}
       className="w-full bg-surface shadow-card rounded-lg p-4 flex flex-col justify-between h-full hover:shadow-md transition-shadow duration-300 cursor-pointer"
     >
       <div>
