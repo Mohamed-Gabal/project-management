@@ -7,7 +7,7 @@ import PlusIcon from "@/assets/icons/plus.svg";
 import ProjectCard from "@/components/project/ProjectCard";
 import ProjectsHeader from "@/components/project/ProjectsHeader";
 import ProjectSkeleton from "@/components/ui/ProjectSkeleton";
-import Pagination from "@/components/project/Pagination";
+import Pagination from "@/components/ui/Pagination";
 import ProjectsErrorState from "@/components/ui/ProjectsErrorState";
 import ProjectsEmptyState from "@/components/ui/ProjectsEmptyState";
 import AddProjectCard from "@/components/project/AddProjectCard";
@@ -50,76 +50,39 @@ const ProjectPage = () => {
     });
   };
 
-  // const loadProjects = async () => {
-  //   setStatus("loading");
+  const loadProjects = async () => {
+    setStatus("loading");
 
-  //   const result = await getProjects(limit, offset);
+    const result = await getProjects(limit, offset);
 
-  //   if (!result.ok && result.status === 401) {
-  //     router.push("/login");
-  //     return;
-  //   }
-  //   if (!result.ok) {
-  //     setStatus("error");
-  //     return;
-  //   }
-  //   if (result.data.length === 0) {
-  //     setStatus("empty");
-  //     return;
-  //   }
+    if (!result.ok && result.status === 401) {
+      router.push("/login");
+      return;
+    }
+    if (!result.ok) {
+      setStatus("error");
+      return;
+    }
+    if (result.data.length === 0) {
+      setStatus("empty");
+      return;
+    }
 
-  //   // Append new projects when loading additional pages on mobile
-  //   if (isMobile && currentPage > 1) {
-  //     setProjects((prev) => [...prev, ...result.data]);
-  //   } else {
-  //     setProjects(result.data);
-  //   }
-  //   // Save total projects count
-  //   setTotalCount(result.totalCount);
-  //   setStatus("success");
-  // };
-
-  useEffect(() => {
-    let isCancelled = false;
-
-    const loadProjects = async () => {
-      setStatus("loading");
-      const result = await getProjects(limit, offset);
-
-      if (isCancelled) return;
-
-      if (!result.ok && result.status === 401) {
-        router.push("/login");
-        return;
-      }
-      if (!result.ok) {
-        setStatus("error");
-        return;
-      }
-      if (result.data.length === 0) {
-        setStatus("empty");
-        return;
-      }
-      if (isMobile && currentPage > 1) {
-        setProjects((prev) => [...prev, ...result.data]);
-      } else {
-        setProjects(result.data);
-      }
-      setTotalCount(result.totalCount);
-      setStatus("success");
-    };
-
-    loadProjects();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [currentPage, isMobile]);
+    // Append new projects when loading additional pages on mobile
+    if (isMobile && currentPage > 1) {
+      setProjects((prev) => [...prev, ...result.data]);
+    } else {
+      setProjects(result.data);
+    }
+    // Save total projects count
+    setTotalCount(result.totalCount);
+    setStatus("success");
+  };
 
   // Update projects list whenever the current page changes
-  // useEffect(() => {
-  //   loadProjects();
-  // }, [currentPage, isMobile]);
+  useEffect(() => {
+    loadProjects();
+  }, [currentPage, isMobile]);
 
   // Detect screen size to enable infinite scroll only on mobile devices
   useEffect(() => {

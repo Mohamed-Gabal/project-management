@@ -49,7 +49,11 @@ const MobileDrawer = ({ isOpen, onClose }: MobileDrawerProps) => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <SidebarContent isCollapsed={false} showCollapseButton={false} />
+        <SidebarContent
+          isCollapsed={false}
+          showCollapseButton={false}
+          onNavigate={onClose}
+        />
       </aside>
     </>
   );

@@ -7,6 +7,7 @@ type SidebarItemProps = {
   icon: StaticImageData;
   isActive: boolean;
   isCollapsed: boolean;
+  onNavigate?: () => void;
 };
 
 const SidebarItem = ({
@@ -15,11 +16,13 @@ const SidebarItem = ({
   icon,
   isActive,
   isCollapsed,
+  onNavigate,
 }: SidebarItemProps) => {
   return (
     <li>
       <Link
         href={href}
+        onClick={onNavigate}
         className={`flex h-10 items-center gap-3 rounded px-3 py-2.5 transition-colors ${
           isActive
             ? "bg-surface text-primary shadow-[0_1px_2px_rgba(0,0,0,0.05)]"

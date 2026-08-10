@@ -14,7 +14,7 @@ export const getSidebarLinks = (projectId?: string) => [
   {
     label: "Project Epics",
     mobileLabel: "Epics",
-    href: `/project/${projectId}/epics/new`,
+    href: `/project/${projectId}/epics`,
     icon: EpicsIcon,
   },
   {

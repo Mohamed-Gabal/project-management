@@ -33,7 +33,7 @@ const NewEpicPage = () => {
       return;
     }
     toast.success("Epic created successfully.");
-    router.push(`/project`);
+    router.push(`/project/${projectId}/epics`);
   };
 
   return (
@@ -43,7 +43,7 @@ const NewEpicPage = () => {
         items={[
           { label: "Projects", href: "/project" },
           { label: "Project Alpha" },
-          { label: "Epics" },
+          { label: "Epics", href: `/project/${projectId}/epics` },
           { label: "New Epic" },
         ]}
       />

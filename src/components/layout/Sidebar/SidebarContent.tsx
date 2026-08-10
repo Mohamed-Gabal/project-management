@@ -15,12 +15,14 @@ type SidebarContentProps = {
   isCollapsed: boolean;
   showCollapseButton?: boolean;
   onToggleCollapse?: () => void;
+  onNavigate?: () => void;
 };
 
 const SidebarContent = ({
   isCollapsed,
   showCollapseButton = true,
   onToggleCollapse,
+  onNavigate,
 }: SidebarContentProps) => {
   const pathname = usePathname();
   const params = useParams();
@@ -59,6 +61,7 @@ const SidebarContent = ({
                 icon={link.icon}
                 isActive={pathname === link.href}
                 isCollapsed={isCollapsed}
+                onNavigate={onNavigate}
               />
             ))}
           </ul>

@@ -1,12 +1,14 @@
 import Image, { StaticImageData } from "next/image";
 import Button from "@/components/ui/Button";
+import { ReactNode } from "react";
 
 interface ProjectsHeaderProps {
   title: string;
-  description: string;
-  buttonText: string;
-  buttonIcon: StaticImageData;
-  onButtonClick: () => void;
+  description?: string;
+  buttonText?: string;
+  buttonIcon?: StaticImageData;
+  onButtonClick?: () => void;
+  rightContent?: ReactNode;
 }
 
 const ProjectsHeader = ({
@@ -15,9 +17,11 @@ const ProjectsHeader = ({
   buttonText,
   buttonIcon,
   onButtonClick,
+  rightContent,
 }: ProjectsHeaderProps) => {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* Title + Description */}
       <div className="flex flex-col gap-2">
         <h1 className="text-headline-lg font-bold text-neutral-dark">
           {title}
@@ -30,16 +34,21 @@ const ProjectsHeader = ({
         )}
       </div>
 
-      {/* Make the button optional so this header can be reused on pages that don't need an action button */}
-      {buttonText && buttonIcon && onButtonClick && (
-        <Button
-          onClick={onButtonClick}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 h-10 px-4 rounded-md text-title-md shadow-card"
-        >
-          <Image src={buttonIcon} alt="" width={16} height={16} />
-          {buttonText}
-        </Button>
-      )}
+      <div className="flex items-center gap-15">
+        {/* Right Content */}
+        {rightContent && <div className="w-[303px]">{rightContent}</div>}
+
+        {/* Make the button optional so this header can be reused on pages that don't need an action button */}
+        {buttonText && buttonIcon && onButtonClick && (
+          <Button
+            onClick={onButtonClick}
+            className="w-full hidden md:flex sm:w-auto items-center justify-center gap-2 h-10 px-4 rounded-md text-title-md shadow-card"
+          >
+            <Image src={buttonIcon} alt="" width={16} height={16} />
+            {buttonText}
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
