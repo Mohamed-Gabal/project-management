@@ -1,4 +1,5 @@
 import { ProjectFormValues } from "@/lib/validations/project";
+import { asyncWrapProviders } from "async_hooks";
 
 // Create
 export async function createProject(data: ProjectFormValues) {
@@ -104,6 +105,50 @@ export async function updateProject(
       ok: false,
       status: response.status,
       message: result.message,
+    };
+  }
+
+  return {
+    ok: true,
+    status: response.status,
+    data: result,
+  };
+}
+
+// Fetch all epic for a specific project
+export async function getProjectEpic(projectId: string) {
+  const response = await fetch(`/api/getProjectEpics/${projectId}`);
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      message: result.message,
+      code: result.code,
+    };
+  }
+
+  return {
+    ok: true,
+    status: response.status,
+    data: result,
+  };
+}
+
+//
+export async function getProjectMembers(projectId: string) {
+  const response = await fetch(`/api/getProjectMembers/${projectId}`);
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      status: response.status,
+      message: result.message,
+      code: result.code,
     };
   }
 

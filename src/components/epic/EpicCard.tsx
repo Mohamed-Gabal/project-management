@@ -1,4 +1,3 @@
-import React from "react";
 import EpicDot from "@/assets/icons/epicDot.svg";
 import EpicDate from "@/assets/icons/epicDate.svg";
 import EpicUser from "@/assets/icons/epicUser.svg";

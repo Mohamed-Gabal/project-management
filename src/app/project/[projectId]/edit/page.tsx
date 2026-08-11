@@ -66,7 +66,7 @@ const EditPage = () => {
   };
 
   return (
-    <section className="space-y-4 p-4 md:space-y-6 md:p-6">
+    <section className="w-full min-w-0 flex flex-col gap-8 max-w-[1024px] px-10 py-10">
       {/* Import Component - Breadcrumb - hidden on mobile */}
       <BreadCrumb
         items={[
