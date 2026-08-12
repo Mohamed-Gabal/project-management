@@ -21,6 +21,7 @@ const ProjectCard = ({
   return (
     <article
       onClick={() => {
+        if (!id) return;
         router.push(`/project/${id}/epics`);
       }}
       className="w-full bg-surface shadow-card rounded-lg p-4 flex flex-col justify-between h-full hover:shadow-md transition-shadow duration-300 cursor-pointer"
