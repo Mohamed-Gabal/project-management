@@ -10,6 +10,7 @@ const BottomNav = () => {
   const params = useParams();
   const projectId = params.projectId as string;
 
+  if (!projectId) return;
   const sidebarLinks = getSidebarLinks(projectId);
 
   return (

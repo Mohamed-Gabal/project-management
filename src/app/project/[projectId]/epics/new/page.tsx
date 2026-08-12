@@ -8,6 +8,9 @@ import { useForm } from "react-hook-form";
 import { createEpic } from "@/services/epic";
 import { toast } from "react-toastify";
 import { useParams, useRouter } from "next/navigation";
+import Select from "@/components/ui/Select";
+import Input from "@/components/ui/Input";
+import { id } from "zod/locales";
 
 const NewEpicPage = () => {
   const router = useRouter();
@@ -113,42 +116,26 @@ const NewEpicPage = () => {
 
           {/* Assignee + Deadline */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="flex flex-col gap-3">
-              {/* Assignee */}
-              <label
-                htmlFor="assignee"
-                className="text-label-sm font=bold uppercase tracking-label-sm text-neutral-dark"
-              >
-                Assignee
-              </label>
-              <select
-                {...register("assignee_id")}
-                id="assignee"
-                className="w-full h-12 rounded-md border border-transparent bg-surface-highest px-4 text-body-md text-neutral-dark outline-none border-none transition focus:border-primary focus:ring-4 focus:ring-primary-container/20"
-              >
-                <option value="">Select a member...</option>
-              </select>
-            </div>
+            {/* Assignee */}
+            {/* Select Component */}
+            <Select
+              {...register("assignee_id")}
+              id="assignee"
+              label="Assignee"
+              error={errors.assignee_id?.message}
+            >
+              <option value="">Select a member...</option>
+            </Select>
 
             {/* Deadline */}
-            <div className="flex flex-col gap-3">
-              <label
-                htmlFor="deadline"
-                className="text-label-sm font-bold uppercase tracking-label-sm text-neutral-dark"
-              >
-                Deadline
-              </label>
-              <input
-                {...register("deadline")}
-                id="deadline"
-                type="date"
-                className="w-full h-12 rounded-md border border-transparent bg-surface-highest px-4 text-body-md text-neutral-dark outline-none transition focus:border-primary focus:ring-4 focus:ring-primary-container/20"
-              />
-              {/* Error Message */}
-              {errors.deadline && (
-                <p className="text-error text-sm">{errors.deadline.message}</p>
-              )}
-            </div>
+            {/* Input Component */}
+            <Input
+              {...register("deadline")}
+              id="deadline"
+              type="date"
+              label="Deadline"
+              error={errors.deadline?.message}
+            />
           </div>
 
           {/* Actions */}

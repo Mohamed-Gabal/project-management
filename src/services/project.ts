@@ -62,6 +62,7 @@ export async function getProjects(limit: number, offset: number) {
 
 // Fetch a single project using its unique project ID
 export async function getProjectId(projectId: string) {
+  if (!projectId) return;
   const response = await fetch(`/api/getProjectById/${projectId}`);
 
   // Parse the JSON response returned from the API
