@@ -18,4 +18,10 @@ export const taskSchema = z.object({
   ]),
 });
 
+// createTaskSchema → API validation + project_id (UUID)
+export const createTaskSchema = taskSchema.extend({
+  project_id: z.string().uuid("Invalid project ID"),
+});
+
 export type TaskFormValues = z.infer<typeof taskSchema>;
+export type CreateTaskInput = z.infer<typeof createTaskSchema>;

@@ -1,11 +1,26 @@
 import { NextResponse } from "next/server";
 import { getAccessToken } from "@/lib/auth/getAccessToken";
 import { getSupabaseConfig } from "@/lib/supabase/env";
+import { createTaskSchema } from "@/lib/validations/task";
 
 export async function POST(request: Request) {
   try {
     // Read Request Body
     const body = await request.json();
+
+    // Validate request body before sending it to Supabase.
+    const validation = createTaskSchema.safeParse(body);
+
+    // Return validation errors when the request body does not match the task schema.
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          message: "Invalid task data.",
+          errors: validation.error.flatten().fieldErrors,
+        },
+        { status: 400 },
+      );
+    }
 
     // Get Supabase Configuration
     const { apiUrl, anonKey } = getSupabaseConfig();
@@ -37,7 +52,7 @@ export async function POST(request: Request) {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(validation.data),
     });
 
     const result = await response.text();
