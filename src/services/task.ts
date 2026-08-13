@@ -26,9 +26,6 @@ export async function createTask(projectId: string, data: TaskFormValues) {
         ok: false,
         status: response.status,
         message: result.message,
-        code: result.code,
-        details: result.details,
-        hint: result.hint,
       };
     }
 
@@ -40,7 +37,8 @@ export async function createTask(projectId: string, data: TaskFormValues) {
   } catch {
     return {
       ok: false,
-      message: "Connection failed. Please try again in a few moments.",
+      status: 0,
+      message: "Connection failed. Please try again.",
     };
   }
 }

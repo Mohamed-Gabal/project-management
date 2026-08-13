@@ -8,36 +8,12 @@ import { createTask } from "@/services/task";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import type { ProjectMember, Epic, TaskFormProps } from "@/types/task";
 
-interface ProjectMember {
-  member_id: string;
-  project_id: string;
-  user_id: string;
-  role: string;
-  email: string;
-  metadata: {
-    sub: string;
-    name: string;
-    email: string;
-    job_title: string;
-    email_verified: boolean;
-    phone_verified: boolean;
-  };
-}
-
-type Epic = {
-  id: string;
-  project_id: string;
-  title: string;
-  epic_id: string;
-};
-
-const TaskForm = () => {
-  const params = useParams();
+const TaskForm = ({ projectId }: TaskFormProps) => {
   const router = useRouter();
-  const projectId = params.projectId as string;
 
   const [members, setMembers] = useState<ProjectMember[]>([]);
   const [epics, setEpics] = useState<Epic[]>([]);
