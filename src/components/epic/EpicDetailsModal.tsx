@@ -6,8 +6,8 @@ import EpicTitle from "@/assets/icons/epic.svg";
 import CopyIcon from "@/assets/icons/copy.svg";
 import CloseIcon from "@/assets/icons/close.svg";
 import CalendarIcon from "@/assets/icons/epicDate.svg";
-import ListIcon from "@/assets/icons/dots.svg";
 import Image from "next/image";
+import EpicTaskList from "./EpicTaskList";
 
 interface EpicDetailsModalProps {
   projectId: string;
@@ -35,7 +35,7 @@ const EpicDetailsModal = ({
       onClick={onClose}
     >
       <div
-        className="max-h-[90vh] w-full max-w-[672px] overflow-y-auto rounded-lg bg-white p-4 shadow-card sm:p-6"
+        className="max-h-[90vh] w-full max-w-[672px] overflow-y-auto rounded-lg bg-white p-4 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         {status === "loading" && (
@@ -160,34 +160,7 @@ const EpicDetailsModal = ({
             </div>
 
             {/* Epic Tasks */}
-            <div>
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="text-body-md font-bold text-neutral-dark">
-                  Epic Tasks
-                </h3>
-                <button
-                  type="button"
-                  className="text-body-sm font-semibold text-primary"
-                >
-                  + Add Task
-                </button>
-              </div>
-
-              <div className="flex flex-col items-center justify-center gap-3 rounded-sm bg-[#F1F3FF] px-4 py-6 text-center sm:py-8">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#D7E2FF]">
-                  <Image src={ListIcon} alt="" width={14} height={14} />
-                </div>
-                <p className="text-sm md:text-body-sm font-semibold text-neutral-dark">
-                  No tasks have been added to this epic yet
-                </p>
-                <button
-                  type="button"
-                  className="rounded-sm bg-primary px-4 py-2 text-body-sm text-white"
-                >
-                  + Add Task
-                </button>
-              </div>
-            </div>
+            <EpicTaskList epicId={epic.id} />
           </>
         )}
       </div>

@@ -70,3 +70,31 @@ export async function getEpicDetails(projectId: string, epicId: string) {
     };
   }
 }
+
+// Fetch tasks belonging to a specific epic
+export async function getEpicTasks(epicId: string) {
+  try {
+    const response = await fetch(`/api/getProjectTasks/${epicId}`);
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        ok: false,
+        status: response.status,
+        message: result.message,
+      };
+    }
+
+    return {
+      ok: true,
+      status: response.status,
+      data: result,
+    };
+  } catch {
+    return {
+      ok: false,
+      message: "Connection failed. Please try again in a few moments.",
+    };
+  }
+}
