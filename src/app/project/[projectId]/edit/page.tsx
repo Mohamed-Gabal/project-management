@@ -42,6 +42,7 @@ const EditPage = () => {
     const fetchProject = async () => {
       const result = await getProjectId(projectId);
 
+      if (!result) return;
       if (result.ok) {
         reset({
           name: result.data.name,
