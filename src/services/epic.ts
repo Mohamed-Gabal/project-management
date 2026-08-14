@@ -42,3 +42,31 @@ export async function createEpic(projectId: string, data: EpicFormValues) {
     };
   }
 }
+
+// Fetch epic details by project ID and epic ID.
+export async function getEpicDetails(projectId: string, epicId: string) {
+  try {
+    const response = await fetch(`/api/getEpicDetails/${projectId}/${epicId}`);
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        ok: false,
+        status: response.status,
+        message: result.message,
+        details: result.details,
+      };
+    }
+    return {
+      ok: true,
+      status: response.status,
+      data: result,
+    };
+  } catch {
+    return {
+      ok: false,
+      message: "Connection failed. Please try again in a few moments.",
+    };
+  }
+}

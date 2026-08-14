@@ -1,6 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import Button from "@/components/ui/Button";
 import { ReactNode } from "react";
+import Link from "next/link";
 
 interface ProjectsHeaderProps {
   title: string;

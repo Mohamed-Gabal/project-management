@@ -10,6 +10,7 @@ interface EpicCardProps {
   assigneeInitials: string;
   createdBy: string;
   createdDate: string;
+  onClick?: () => void;
 }
 
 const EpicCard = ({
@@ -19,9 +20,13 @@ const EpicCard = ({
   assigneeInitials,
   createdBy,
   createdDate,
+  onClick,
 }: EpicCardProps) => {
   return (
-    <article className="w-full min-w-0 overflow-hidden rounded-lg bg-white md:min-h-[209px] md:border-l-4 md:border-l-[#004E32] shadow-card">
+    <article
+      onClick={onClick}
+      className="w-full min-w-0 overflow-hidden rounded-lg bg-white md:min-h-[209px] md:border-l-4 md:border-l-[#004E32] shadow-card cursor-pointer"
+    >
       <div className="flex min-h-[118px] w-full min-w-0 flex-col justify-between p-3 md:min-h-[209px] md:p-4">
         {/* Top Row */}
         <div className="flex items-start justify-between">
@@ -34,6 +39,7 @@ const EpicCard = ({
           <button
             type="button"
             aria-label="Epic actions"
+            onClick={(e) => e.stopPropagation()}
             className="flex h-4 w-4 shrink-0 items-center justify-center"
           >
             <Image src={EpicDot} alt="" width={5} height={5} />
