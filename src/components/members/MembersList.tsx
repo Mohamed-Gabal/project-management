@@ -1,22 +1,10 @@
 import Image from "next/image";
 import PlusIcon from "@/assets/icons/plus.svg";
 import { getInitials } from "@/lib/utils/getInitials";
-
-interface Member {
-  member_id: string;
-  user_id: string;
-  project_id: string;
-  email: string;
-  role: "owner" | "admin" | "member" | "viewer";
-  metadata: {
-    name: string | null;
-    email: string | null;
-    job_title: string | null;
-  };
-}
+import { ProjectMember } from "@/types/member";
 
 interface MembersListProps {
-  members: Member[];
+  members: ProjectMember[];
 }
 
 const MembersList = ({ members }: MembersListProps) => {

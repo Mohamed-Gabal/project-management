@@ -98,3 +98,41 @@ export async function getEpicTasks(epicId: string) {
     };
   }
 }
+
+// Update Epic
+export async function updateEpic(
+  epicId: string,
+  data: Partial<EpicFormValues>,
+) {
+  try {
+    const response = await fetch(`/api/epic/${epicId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        ok: false,
+        status: response.status,
+        message: result.message,
+        details: result.details,
+      };
+    }
+
+    return {
+      ok: true,
+      status: response.status,
+      data: result,
+    };
+  } catch {
+    return {
+      ok: false,
+      message: "Connection failed. Please try again in a few moments.",
+    };
+  }
+}

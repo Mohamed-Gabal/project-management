@@ -9,25 +9,13 @@ import { useParams } from "next/navigation";
 import { getProjectMembers } from "@/services/project";
 import ProjectSkeleton from "@/components/ui/ProjectSkeleton";
 import ProjectsErrorState from "@/components/ui/ProjectsErrorState";
+import { ProjectMember } from "@/types/member";
 
 type PageStatus = "loading" | "success" | "error";
 
-interface Member {
-  member_id: string;
-  user_id: string;
-  project_id: string;
-  email: string;
-  role: "owner" | "admin" | "member" | "viewer";
-  metadata: {
-    name: string | null;
-    email: string | null;
-    job_title: string | null;
-  };
-}
-
 const MembersPage = () => {
   // Members data returned from the API
-  const [members, setMembers] = useState<Member[]>([]);
+  const [members, setMembers] = useState<ProjectMember[]>([]);
   const [status, setStatus] = useState<PageStatus>("loading");
 
   const params = useParams();
