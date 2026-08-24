@@ -138,7 +138,7 @@ export async function getProjectEpic(projectId: string) {
   };
 }
 
-// Member
+// Get Project Member
 export async function getProjectMembers(projectId: string) {
   const response = await fetch(`/api/getProjectMembers/${projectId}`);
 

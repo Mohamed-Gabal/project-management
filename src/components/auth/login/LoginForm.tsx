@@ -9,14 +9,17 @@ import Link from "next/link";
 import Input from "../../ui/Input";
 import PasswordInput from "../../ui/PasswordInput";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-
+import { useRouter, useSearchParams } from "next/navigation";
 const LoginForm = () => {
   // State to hold any APÍ error messages
   const [apiError, setApiError] = useState("");
 
   // Initialize the router for navigation after successful login
   const router = useRouter();
+
+  // Read the redirect target (if the user was sent here from another page)
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect");
 
   // Handle form submission
   const onSubmit = async (data: LoginFormValues) => {
@@ -30,7 +33,7 @@ const LoginForm = () => {
       return;
     }
 
-    router.push("/project");
+    router.push(redirectTo || "/project");
   };
 
   // Initialize the form using react-hook-form and zod for validation
