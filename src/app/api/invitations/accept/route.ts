@@ -44,7 +44,8 @@ export async function POST(request: Request) {
       }),
     });
 
-    const result = await response.json();
+    const text = await response.text();
+    const result = text ? JSON.parse(text) : {};
 
     // Forward Supabase errors
     if (!response.ok) {

@@ -47,7 +47,8 @@ export async function POST(request: Request) {
       }),
     });
 
-    const result = await response.json();
+    const text = await response.text();
+    const result = text ? JSON.parse(text) : {};
 
     if (!response.ok) {
       return NextResponse.json(result, {
@@ -66,12 +67,8 @@ export async function POST(request: Request) {
     );
   } catch {
     return NextResponse.json(
-      {
-        message: "Unable to send invitation. Please try again later.",
-      },
-      {
-        status: 500,
-      },
+      { message: "Unable to send invitation. Please try again later." },
+      { status: 500 },
     );
   }
 }

@@ -107,6 +107,7 @@ const InviteMemberModal = ({
           >
             <input
               id="invite-email"
+              disabled={isSubmitting}
               type="email"
               {...register("email")}
               placeholder="Enter email address"
