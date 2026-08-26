@@ -8,6 +8,7 @@ export type EpicOption = {
 
 export type TaskFormProps = {
   projectId: string;
+  initialStatus?: string;
 };
 
 // A single Task belonging to an Epic, as returned from the API

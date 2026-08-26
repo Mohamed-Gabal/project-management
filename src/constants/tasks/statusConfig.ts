@@ -1,0 +1,58 @@
+export const TASK_STATUS = [
+  {
+    key: "TO_DO",
+    label: "TO DO",
+    dotColor: "#9CA3AF",
+    borderColor: "#9CA3AF",
+    badgeColor: "#E5E7EB",
+  },
+  {
+    key: "IN_PROGRESS",
+    label: "IN PROGRESS",
+    dotColor: "#3B82F6",
+    borderColor: "#3B82F6",
+    badgeColor: "#DBEAFE",
+  },
+  {
+    key: "BLOCKED",
+    label: "BLOCKED",
+    dotColor: "#EF4444",
+    borderColor: "#EF4444",
+    badgeColor: "#FEE2E2",
+  },
+  {
+    key: "IN_REVIEW",
+    label: "IN REVIEW",
+    dotColor: "#A855F7",
+    borderColor: "#A855F7",
+    badgeColor: "#F3E8FF",
+  },
+  {
+    key: "READY_FOR_QA",
+    label: "READY FOR QA",
+    dotColor: "#F59E0B",
+    borderColor: "#F59E0B",
+    badgeColor: "#FEF3C7",
+  },
+  {
+    key: "REOPENED",
+    label: "REOPENED",
+    dotColor: "#EC4899",
+    borderColor: "#EC4899",
+    badgeColor: "#FCE7F3",
+  },
+  {
+    key: "READY_FOR_PRODUCTION",
+    label: "READY FOR PRODUCTION",
+    dotColor: "#14B8A6",
+    borderColor: "#14B8A6",
+    badgeColor: "#CCFBF1",
+  },
+  {
+    key: "DONE",
+    label: "DONE",
+    dotColor: "#22C55E",
+    borderColor: "#22C55E",
+    badgeColor: "#DCFCE7",
+  },
+] as const;

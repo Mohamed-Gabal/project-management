@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import type { ProjectMember, Epic, TaskFormProps } from "@/types/task";
 
-const TaskForm = ({ projectId }: TaskFormProps) => {
+const TaskForm = ({ projectId, initialStatus }: TaskFormProps) => {
   const router = useRouter();
 
   const [members, setMembers] = useState<ProjectMember[]>([]);
@@ -70,7 +70,7 @@ const TaskForm = ({ projectId }: TaskFormProps) => {
   } = useForm<TaskFormValues>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
-      status: "TO_DO",
+      status: initialStatus || "TO_DO",
     },
   });
 

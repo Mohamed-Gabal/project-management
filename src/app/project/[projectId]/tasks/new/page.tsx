@@ -4,10 +4,13 @@ import BreadCrumb from "@/components/ui/BreadCrumb";
 
 const NewTaskPage = async ({
   params,
+  searchParams,
 }: {
   params: Promise<{ projectId: string }>;
+  searchParams: Promise<{ status?: string }>;
 }) => {
   const { projectId } = await params;
+  const { status } = await searchParams;
 
   return (
     <section className="w-full min-w-0 overflow-x-hidden flex flex-col gap-8 max-w-[1024px] px-10 py-10">
@@ -27,7 +30,7 @@ const NewTaskPage = async ({
         description="Initialize a new work item within the Architectural Workspace ecosystem."
       />
 
-      <TaskForm projectId="projectId" />
+      <TaskForm projectId={projectId} initialStatus={status} />
     </section>
   );
 };
