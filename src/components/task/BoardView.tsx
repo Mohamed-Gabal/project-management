@@ -15,7 +15,7 @@ interface BoardViewProps {
 
 const BoardView = ({ projectId, tasksByStatus }: BoardViewProps) => {
   return (
-    <div className="flex gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="flex flex-col gap-6 md:flex-row md:gap-6 md:overflow-x-auto md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden">
       {TASK_STATUS.map((status) => {
         const tasks = tasksByStatus[status.key] ?? [];
 

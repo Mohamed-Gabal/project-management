@@ -8,19 +8,38 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({ title, dueDate, assigneeInitials }: TaskCardProps) => {
+  const isToday = dueDate === "TODAY";
+  const isDelayed = dueDate === "DELAYED";
+
   return (
-    <div className="flex w-[288px] min-h-[113px] flex-col justify-between rounded-lg border border-[#C3C6D61A] bg-surface p-4 shadow">
+    <div
+      className={`flex w-full min-h-[113px] flex-col justify-between rounded-lg p-4 shadow ${
+        isToday
+          ? "border border-[#C3C6D61A] border-l-4 border-l-[#3B82F6] bg-surface"
+          : isDelayed
+            ? "border border-[#FCA5A5]/30 bg-[#FEF2F2]"
+            : "border border-[#C3C6D61A] bg-surface"
+      }`}
+    >
       <p className="text-sm font-medium text-neutral-dark line-clamp-2">
         {title}
       </p>
 
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-xs text-[#94A3B8]">
+        <div
+          className={`flex items-center gap-1.5 text-xs ${
+            isToday
+              ? "font-semibold text-[#3B82F6]"
+              : isDelayed
+                ? "font-semibold text-[#EF4444]"
+                : "text-[#94A3B8]"
+          }`}
+        >
           <Image src={CalendarIcon} alt="" width={15} height={15} />
           <span>{dueDate}</span>
         </div>
 
-        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#E0E8FF] text-[10px] font-bold">
+        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E0E8FF] text-[10px] font-bold">
           {assigneeInitials}
         </div>
       </div>

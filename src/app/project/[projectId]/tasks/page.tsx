@@ -2,6 +2,8 @@ import ProjectsHeader from "@/components/project/ProjectsHeader";
 import BoardView from "@/components/task/BoardView";
 import TasksToolBar from "@/components/task/TasksToolbar";
 import BreadCrumb from "@/components/ui/BreadCrumb";
+import { getTasksByStatus } from "@/services/task-server";
+import { TASK_STATUS } from "@/constants/tasks/statusConfig";
 
 interface Task {
   id: string;
@@ -16,67 +18,36 @@ interface TaskPageProps {
   }>;
 }
 
-const mockTasksByStatus: Record<string, Task[]> = {
-  TO_DO: [
-    {
-      id: "1",
-      title: "Incorporate stakeholder feedback from v1.2 Review",
-      dueDate: "OCT 12",
-      assigneeInitials: "MT",
-    },
-    {
-      id: "2",
-      title: "Audit typography hierarchy for mobile views",
-      dueDate: "OCT 14",
-      assigneeInitials: "JD",
-    },
-  ],
-  IN_PROGRESS: [
-    {
-      id: "3",
-      title: "Interactive Prototype for Curator Dashboard",
-      dueDate: "TODAY",
-      assigneeInitials: "SK",
-    },
-  ],
-  BLOCKED: [
-    {
-      id: "4",
-      title: "Sync external assets database to Curator core",
-      dueDate: "DELAYED",
-      assigneeInitials: "MT",
-    },
-  ],
-  IN_REVIEW: [
-    {
-      id: "5",
-      title: "Document system architecture decisions",
-      dueDate: "OCT 18",
-      assigneeInitials: "AL",
-    },
-  ],
-  READY_FOR_QA: [
-    {
-      id: "6",
-      title: "Verify payment gateway integration",
-      dueDate: "OCT 20",
-      assigneeInitials: "RM",
-    },
-  ],
-  REOPENED: [],
-  READY_FOR_PRODUCTION: [],
-  DONE: [
-    {
-      id: "7",
-      title: "Update onboarding flow copy",
-      dueDate: "OCT 10",
-      assigneeInitials: "NF",
-    },
-  ],
-};
-
 const TasksPage = async ({ params }: TaskPageProps) => {
   const { projectId } = await params;
+
+  const results = await Promise.all(
+    TASK_STATUS.map((status) => getTasksByStatus(projectId, status.key)),
+  );
+
+  const tasksByStatus: Record<string, Task[]> = {};
+
+  TASK_STATUS.forEach((status, index) => {
+    const result = results[index];
+
+    if (result.ok) {
+      tasksByStatus[status.key] = result.data.map((task) => ({
+        id: task.id,
+        title: task.title,
+        dueDate: task.due_date,
+        assigneeInitials: task.assignee?.name
+          ? task.assignee.name
+              .split(" ")
+              .map((name: string) => name[0])
+              .join("")
+              .toUpperCase()
+          : "--",
+      }));
+    } else {
+      tasksByStatus[status.key] = [];
+    }
+  });
+
   return (
     <section className="w-full min-w-0 max-w-[1024px] flex flex-col gap-8 px-4 py-6 sm:px-6 sm:py-8 md:px-10 md:py-10">
       {/* Breadcrumb */}
@@ -96,7 +67,7 @@ const TasksPage = async ({ params }: TaskPageProps) => {
       />
 
       {/* StatusColumn */}
-      <BoardView tasksByStatus={mockTasksByStatus} projectId={projectId} />
+      <BoardView tasksByStatus={tasksByStatus} projectId={projectId} />
     </section>
   );
 };

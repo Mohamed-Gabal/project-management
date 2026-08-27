@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const TasksToolBar = () => {
   return (
-    <section className="flex w-full items-center justify-between gap-4 sm:w-auto">
+    <div className="flex w-full items-center justify-between gap-4 sm:w-auto">
       {/* Search Input */}
       <div className="relative flex h-10 w-full max-w-[256px] items-center rounded-md bg-[#D7E2FF] px-3">
         <Image
@@ -29,7 +29,7 @@ const TasksToolBar = () => {
           <option>List View</option>
         </select>
       </div>
-    </section>
+    </div>
   );
 };
 

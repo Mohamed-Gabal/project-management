@@ -29,25 +29,25 @@ const StatusColumn = ({
 
   if (!status) return null;
   return (
-    <div className="w-[288px]">
+    <section className="w-full md:w-[228px] md:shrink-0">
       {/* Header */}
       <div className="flex w-full items-center justify-between h-[19px] px-1">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 whitespace-nowrap">
           <span
-            className="h-2 w-2 rounded-full"
+            className="h-2 w-2 shrink-0 rounded-full"
             style={{ backgroundColor: status.dotColor }}
           />
           <span className="text-xs font-semibold uppercase text-neutral">
             {status.label}
           </span>
-          <span className="w-[18px] h-[19px] flex items-center justify-center rounded-[2px] bg-[#E0E8FF] text-xs text-neutral-dark font-bold">
+          <span className="w-[18px] h-[19px] shrink-0 flex items-center justify-center rounded-[2px] bg-[#E0E8FF] text-xs text-neutral-dark font-bold">
             {count}
           </span>
         </div>
         <Link
           href={`/project/${projectId}/tasks/new?status=${statusKey}`}
           type="button"
-          className="cursor-pointer "
+          className="cursor-pointer shrink-0"
         >
           <Image src={Plus} alt="" width={15} height={15} />
         </Link>
@@ -72,7 +72,7 @@ const StatusColumn = ({
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

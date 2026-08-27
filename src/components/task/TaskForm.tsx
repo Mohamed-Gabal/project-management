@@ -83,12 +83,12 @@ const TaskForm = ({ projectId, initialStatus }: TaskFormProps) => {
     }
 
     toast.success("Task created successfully.");
+    router.push(`/project/${projectId}/tasks`);
   };
 
   return (
     <article className="w-full rounded-lg bg-surface p-4 shadow-card md:p-6">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-        {/* Title */}
         {/* Input Component */}
         <Input
           {...register("title")}
