@@ -8,24 +8,32 @@ interface Task {
   assigneeInitials: string;
 }
 
+interface BoardTasks {
+  tasks: Task[];
+  totalCount: number;
+}
+
 interface BoardViewProps {
   projectId: string;
-  tasksByStatus: Record<string, Task[]>;
+  tasksByStatus: Record<string, BoardTasks>;
 }
 
 const BoardView = ({ projectId, tasksByStatus }: BoardViewProps) => {
   return (
     <div className="flex flex-col gap-6 md:flex-row md:gap-6 md:overflow-x-auto md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden">
       {TASK_STATUS.map((status) => {
-        const tasks = tasksByStatus[status.key] ?? [];
+        const statusData = tasksByStatus[status.key] ?? {
+          tasks: [],
+          totalCount: 0,
+        };
 
         return (
           <StatusColumn
             key={status.key}
             projectId={projectId}
             statusKey={status.key}
-            count={tasks.length}
-            tasks={tasks}
+            tasks={statusData.tasks}
+            totalCount={statusData.totalCount}
           />
         );
       })}

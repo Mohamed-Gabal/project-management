@@ -83,7 +83,7 @@ const TaskForm = ({ projectId, initialStatus }: TaskFormProps) => {
     }
 
     toast.success("Task created successfully.");
-    router.push(`/project/${projectId}/tasks`);
+    router.push(`/project/${projectId}/tasks?view=board`);
   };
 
   return (

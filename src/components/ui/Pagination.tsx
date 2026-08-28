@@ -7,6 +7,7 @@ interface PaginationProps {
   totalCount: number;
   limit: number;
   onPageChange: (page: number) => void;
+  label?: string;
 }
 
 const Pagination = ({
@@ -14,6 +15,7 @@ const Pagination = ({
   totalCount,
   limit,
   onPageChange,
+  label = "active projects",
 }: PaginationProps) => {
   // Calculate how many pages are needed
   const totalPages = Math.ceil(totalCount / limit);
@@ -63,7 +65,7 @@ const Pagination = ({
   return (
     <div className="hidden md:flex items-center justify-between mt-8">
       <span className="text-label-sm text-neutral">
-        Showing {showingCount} of {totalCount} active projects
+        Showing {showingCount} of {totalCount} {label}
       </span>
 
       <div className="flex items-center gap-1">
@@ -84,7 +86,7 @@ const Pagination = ({
               if (typeof item === "number") onPageChange(item);
             }}
             className={`w-8 h-8 flex items-center justify-center rounded-md text-title-md ${
-              currentPage === index + 1
+              currentPage === item
                 ? "bg-primary text-surface"
                 : "border border-surface-highest text-neutral-dark"
             }`}
