@@ -1,6 +1,10 @@
 "use server";
 
-import { getTasksByStatus, getTasks } from "@/services/task-server";
+import {
+  getTasksByStatus,
+  getTasks,
+  getTaskById,
+} from "@/services/task-server";
 
 // Fetch the next page of tasks for a status column on the board (Board View)
 export async function loadMoreTasks(
@@ -19,4 +23,9 @@ export async function loadMoreListTasks(
   offset: number,
 ) {
   return getTasks(projectId, limit, offset);
+}
+
+// Show the Detail Popup
+export async function loadTaskDetails(projectId: string, taskId: string) {
+  return getTaskById(projectId, taskId);
 }

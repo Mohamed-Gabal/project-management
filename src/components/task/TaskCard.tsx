@@ -5,15 +5,22 @@ interface TaskCardProps {
   title: string;
   dueDate: string;
   assigneeInitials: string;
+  onClick: () => void;
 }
 
-const TaskCard = ({ title, dueDate, assigneeInitials }: TaskCardProps) => {
+const TaskCard = ({
+  title,
+  dueDate,
+  assigneeInitials,
+  onClick,
+}: TaskCardProps) => {
   const isToday = dueDate === "TODAY";
   const isDelayed = dueDate === "DELAYED";
 
   return (
     <div
-      className={`flex w-full min-h-[113px] flex-col justify-between rounded-lg p-4 shadow ${
+      onClick={onClick}
+      className={`flex w-full min-h-[113px] flex-col justify-between rounded-lg p-4 shadow cursor-pointer ${
         isToday
           ? "border border-[#C3C6D61A] border-l-4 border-l-[#3B82F6] bg-surface"
           : isDelayed

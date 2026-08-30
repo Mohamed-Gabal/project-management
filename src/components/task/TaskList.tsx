@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import Pagination from "@/components/ui/Pagination";
 import TaskMobileList from "@/components/task/TaskMobileList";
+import { useState } from "react";
+import TaskDetailsModal from "./TaskDetailModal";
 
 interface Task {
   id: string;
@@ -33,6 +35,8 @@ const TaskList = ({
     // Update the page in the URL so the Server Component fetches the selected page
     router.push(`/project/${projectId}/tasks?view=list&page=${page}`);
   };
+
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
 
   return (
     <div className="w-full">
@@ -68,8 +72,9 @@ const TaskList = ({
               <tbody>
                 {tasks.map((task) => (
                   <tr
+                    onClick={() => setSelectedTaskId(task.id)}
                     key={task.id}
-                    className="h-[56px] border-t border-[#E2E8F0]"
+                    className="h-[56px] border-t border-[#E2E8F0] cursor-pointer"
                   >
                     <td className="px-4 text-[10px] font-medium text-[#2563EB]">
                       TASK-{task.id}
@@ -117,6 +122,15 @@ const TaskList = ({
         totalCount={totalCount}
         limit={limit}
       />
+
+      {/*  */}
+      {selectedTaskId && (
+        <TaskDetailsModal
+          projectId={projectId}
+          taskId={selectedTaskId}
+          onClose={() => setSelectedTaskId(null)}
+        />
+      )}
     </div>
   );
 };

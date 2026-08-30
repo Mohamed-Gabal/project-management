@@ -6,8 +6,11 @@ import CalendarIcon from "@/assets/icons/epicDate.svg";
 import unUser from "@/assets/icons/unUser.svg";
 import plusAdd from "@/assets/icons/plus-add.svg";
 import Image from "next/image";
+import { useState } from "react";
+import TaskDetailsModal from "../task/TaskDetailModal";
 
 interface EpicTaskListProps {
+  projectId: string;
   epicId: string;
 }
 
@@ -18,8 +21,12 @@ const formatDueDate = (date: string) =>
     year: "numeric",
   });
 
-const EpicTaskList = ({ epicId }: EpicTaskListProps) => {
+const EpicTaskList = ({ epicId, projectId }: EpicTaskListProps) => {
   const { tasks, status } = useEpicTasks(epicId);
+
+  const [selectedTask, setSelectedTask] = useState<
+    (typeof tasks)[number] | null
+  >(null);
 
   return (
     <div>
@@ -75,7 +82,8 @@ const EpicTaskList = ({ epicId }: EpicTaskListProps) => {
           {tasks.map((task) => (
             <div
               key={task.id}
-              className="flex items-center justify-between gap-4 border-b border-[#F1F3FF] px-3 py-3 sm:px-3 sm:py-4"
+              onClick={() => setSelectedTask(task)}
+              className="flex cursor-pointer items-center justify-between gap-4 border-b border-[#F1F3FF] px-3 py-3 transition-colors hover:bg-[#F8FAFC] sm:px-3 sm:py-4"
             >
               {/* Title */}
               <span className="block truncate text-body-sm font-medium text-neutral-dark">
@@ -127,6 +135,15 @@ const EpicTaskList = ({ epicId }: EpicTaskListProps) => {
             Add New Task
           </button>
         </div>
+      )}
+
+      {/*  */}
+      {selectedTask && (
+        <TaskDetailsModal
+          projectId={selectedTask.project_id}
+          taskId={selectedTask.id}
+          onClose={() => setSelectedTask(null)}
+        />
       )}
     </div>
   );

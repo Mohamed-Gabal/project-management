@@ -157,3 +157,78 @@ export async function getTasks(
     };
   }
 }
+
+// Fetch details for a single task
+export async function getTaskById(projectId: string, taskId: string) {
+  try {
+    const { apiUrl, anonKey } = getSupabaseConfig();
+
+    if (!apiUrl || !anonKey) {
+      return {
+        ok: false,
+        status: 500,
+        message: "Environment variables are missing.",
+      };
+    }
+
+    const accessToken = await getAccessToken();
+
+    if (!accessToken) {
+      return {
+        ok: false,
+        status: 401,
+        message: "User is not authenticated.",
+      };
+    }
+
+    const params = new URLSearchParams({
+      project_id: `eq.${projectId}`,
+      id: `eq.${taskId}`,
+    });
+
+    const response = await fetch(
+      `${apiUrl}/rest/v1/project_tasks?${params.toString()}`,
+      {
+        method: "GET",
+        headers: {
+          apikey: anonKey,
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        ok: false,
+        status: response.status,
+        message: "Failed to fetch task details.",
+        data: result,
+      };
+    }
+
+    const task = result[0] ?? null;
+
+    if (!task) {
+      return {
+        ok: true,
+        status: response.status,
+        data: null,
+      };
+    }
+
+    return {
+      ok: true,
+      status: response.status,
+      data: task,
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 0,
+      message: "Connection failed. Please try again.",
+    };
+  }
+}

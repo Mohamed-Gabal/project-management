@@ -8,6 +8,7 @@ import TaskCard from "./TaskCard";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { loadMoreTasks } from "@/actions/task";
+import TaskDetailsModal from "./TaskDetailModal";
 
 interface Task {
   id: string;
@@ -38,6 +39,8 @@ const StatusColumn = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const isLoadingRef = useRef(false);
+
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const hasMore = tasks.length < totalCount;
@@ -164,6 +167,7 @@ const StatusColumn = ({
             title={task.title}
             dueDate={task.dueDate}
             assigneeInitials={task.assigneeInitials}
+            onClick={() => setSelectedTaskId(task.id)}
           />
         ))}
 
@@ -179,6 +183,15 @@ const StatusColumn = ({
           </div>
         )}
       </div>
+
+      {/*  */}
+      {selectedTaskId && (
+        <TaskDetailsModal
+          projectId={projectId}
+          taskId={selectedTaskId}
+          onClose={() => setSelectedTaskId(null)}
+        />
+      )}
     </section>
   );
 };
