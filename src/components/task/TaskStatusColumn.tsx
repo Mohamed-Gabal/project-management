@@ -131,7 +131,10 @@ const StatusColumn = ({
             {status.label}
           </span>
 
-          <span className="flex h-[19px] w-[18px] shrink-0 items-center justify-center rounded-[2px] bg-[#E0E8FF] text-xs font-bold text-neutral-dark">
+          <span
+            className="flex h-[19px] w-[18px] shrink-0 items-center justify-center rounded-[2px] text-xs font-bold text-neutral-dark"
+            style={{ backgroundColor: status.badgeColor }}
+          >
             {tasks.length}
           </span>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Board from "@/assets/icons/board.svg";
+import ListIcon from "@/assets/icons/list-icon.svg";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -14,7 +15,13 @@ const ViewSwitcher = () => {
 
   return (
     <div className="flex h-[38px] items-center gap-2 rounded-[4px] border border-[#C3C6D6]/20 bg-surface px-4 py-2">
-      <Image src={Board} alt="" width={16} height={16} className="shrink-0" />
+      <Image
+        src={currentView === "list" ? ListIcon : Board}
+        alt=""
+        width={16}
+        height={16}
+        className="shrink-0"
+      />
 
       <select
         value={currentView}

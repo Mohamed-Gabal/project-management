@@ -51,10 +51,6 @@ const TasksPage = async ({ params, searchParams }: TaskPageProps) => {
       }))
     : [];
 
-  /*
-   * BOARD VIEW
-   * Fetch the first page for every status column.
-   */
   const boardLimit = 10;
   const boardOffset = 0;
 
@@ -67,8 +63,7 @@ const TasksPage = async ({ params, searchParams }: TaskPageProps) => {
         )
       : [];
 
-  const tasksByStatus: Record<
-    string,
+  const tasksByStatus: Record<string,
     {
       tasks: Task[];
       totalCount: number;
