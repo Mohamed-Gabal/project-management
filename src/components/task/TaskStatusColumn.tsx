@@ -8,7 +8,7 @@ import TaskCard from "./TaskCard";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { loadMoreTasks } from "@/actions/task";
-import TaskDetailsModal from "./TaskDetailModal";
+import TaskDetailsModal from "./TaskDetailsModal/TaskDetailsModal";
 
 interface Task {
   id: string;

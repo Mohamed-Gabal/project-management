@@ -7,7 +7,7 @@ import unUser from "@/assets/icons/unUser.svg";
 import plusAdd from "@/assets/icons/plus-add.svg";
 import Image from "next/image";
 import { useState } from "react";
-import TaskDetailsModal from "../task/TaskDetailModal";
+import TaskDetailsModal from "../task/TaskDetailsModal/TaskDetailsModal";
 
 interface EpicTaskListProps {
   projectId: string;

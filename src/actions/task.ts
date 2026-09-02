@@ -4,6 +4,8 @@ import {
   getTasksByStatus,
   getTasks,
   getTaskById,
+  updateTaskById,
+  TaskUpdatePayload,
 } from "@/services/task-server";
 
 // Fetch the next page of tasks for a status column on the board (Board View)
@@ -23,6 +25,14 @@ export async function loadMoreListTasks(
   offset: number,
 ) {
   return getTasks(projectId, limit, offset);
+}
+
+// Update only the changed fields of a task
+export async function UpdateTaskDetails(
+  taskId: string,
+  updates: Partial<TaskUpdatePayload>,
+) {
+  return updateTaskById(taskId, updates);
 }
 
 // Show the Detail Popup

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Pagination from "@/components/ui/Pagination";
 import TaskMobileList from "@/components/task/TaskMobileList";
 import { useState } from "react";
-import TaskDetailsModal from "./TaskDetailModal";
+import TaskDetailsModal from "./TaskDetailsModal/TaskDetailsModal";
 
 interface Task {
   id: string;
