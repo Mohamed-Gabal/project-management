@@ -30,16 +30,6 @@ interface Epic {
 
 type TaskDetailsStatus = "loading" | "success" | "error" | "empty";
 
-const formatDate = (date: string | null) => {
-  if (!date) return "—";
-
-  return new Date(date).toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-};
-
 // Task details modal with optimistic field updates and rollback on API failure.
 const TaskDetailsModal = ({
   projectId,

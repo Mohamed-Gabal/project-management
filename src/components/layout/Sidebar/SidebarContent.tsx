@@ -44,9 +44,12 @@ const SidebarContent = ({
           <Image src={logoIcon} alt="Taskly Logo" width={24} height={24} />
 
           {!isCollapsed && (
-            <span className="text-title-md font-bold text-neutral-dark">
+            <Link
+              href="/project"
+              className="text-title-md font-bold text-neutral-dark"
+            >
               Taskly
-            </span>
+            </Link>
           )}
         </div>
 

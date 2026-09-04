@@ -3,6 +3,7 @@ import EpicsIcon from "@/assets/icons/epics.svg";
 import TaskIcon from "@/assets/icons/task.svg";
 import MemberIcon from "@/assets/icons/members.svg";
 import DetailsIcon from "@/assets/icons/details.svg";
+import StatisticsIcon from "@/assets/icons/statistics.svg";
 
 export const getSidebarLinks = (projectId?: string) => [
   {
@@ -10,6 +11,12 @@ export const getSidebarLinks = (projectId?: string) => [
     mobileLabel: "Projects",
     href: "/project",
     icon: ProjectIcon,
+  },
+  {
+    label: "My Statistics",
+    mobileLabel: "Statistics",
+    href: `/project/${projectId}/my-statistics`,
+    icon: StatisticsIcon,
   },
   {
     label: "Project Epics",
