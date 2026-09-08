@@ -42,7 +42,7 @@ const SignUpForm = () => {
       return;
     }
 
-    router.push("/project");
+    router.push("/login");
   };
 
   return (
@@ -112,7 +112,7 @@ const SignUpForm = () => {
       </form>
 
       <p className="mt-5 text-center text-body-md text-neutral">
-        Already have an account?{" "}
+        Already have an account?
         <Link href="/login" className="font-bold text-primary">
           Log in
         </Link>

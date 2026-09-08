@@ -1,10 +1,10 @@
 import type { LoginFormValues } from "@/lib/validations/login";
 import type { SignUpFormValues } from "@/lib/validations/sign-up";
+import { getSupabaseConfig } from "@/lib/supabase/env";
 
 // Fetch Api For SignUp Component
 export async function signUp(data: SignUpFormValues) {
-  const apiUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const { apiUrl, anonKey } = getSupabaseConfig();
 
   if (!apiUrl || !anonKey) {
     return {
@@ -25,7 +25,8 @@ export async function signUp(data: SignUpFormValues) {
         password: data.password,
         data: {
           name: data.name,
-          job_title: data.jobTitle,
+          // Only include job_title if its value is not empty
+          ...(data.jobTitle && { job_title: data.jobTitle }),
         },
       }),
     });
@@ -84,8 +85,7 @@ export async function login(data: LoginFormValues) {
 
 // Send password reset email
 export async function requestPasswordReset(email: string) {
-  const apiUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const { apiUrl, anonKey } = getSupabaseConfig();
 
   if (!apiUrl || !anonKey) {
     return {
@@ -133,21 +133,26 @@ export async function requestPasswordReset(email: string) {
 
 // Fetch Api For ResetPassword Component
 export async function resetPassword(accessToken: string, password: string) {
+  const { apiUrl, anonKey } = getSupabaseConfig();
+
+  if (!apiUrl || !anonKey) {
+    return {
+      ok: false,
+      message: "Environment variables are not defined",
+    };
+  }
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password,
-        }),
+    const response = await fetch(`${apiUrl}/auth/v1/user`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        apikey: anonKey,
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        password,
+      }),
+    });
 
     const result = await response.json();
 
