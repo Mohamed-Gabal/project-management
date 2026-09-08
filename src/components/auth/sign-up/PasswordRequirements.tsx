@@ -1,17 +1,29 @@
+import {
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_RULES,
+} from "@/lib/validations/password-rules";
 interface PasswordRequirementsProps {
   password: string;
 }
 
 const PasswordRequirements = ({ password }: PasswordRequirementsProps) => {
   // Each check reflects one condition already enforced by the Zod schema.
-  // This component only reflects live feedback while typing.
-  const hasMinLength = password.length >= 8;
+  const hasMinLength = password.length >= PASSWORD_MIN_LENGTH;
+  const hasMaxLength = password.length <= PASSWORD_MAX_LENGTH;
+
+  const hasNoWhitespace = PASSWORD_RULES.noWhitespace.test(password);
+
   const hasUpperLowerDigit =
-    /[A-Z]/.test(password) && /[a-z]/.test(password) && /[0-9]/.test(password);
-  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    PASSWORD_RULES.uppercase.test(password) &&
+    PASSWORD_RULES.lowercase.test(password) &&
+    PASSWORD_RULES.digit.test(password);
+
+  const hasSpecialChar = PASSWORD_RULES.specialChar.test(password);
 
   const requirements = [
-    { label: "At least 8 characters", met: hasMinLength },
+    { label: "8-64 characters", met: hasMinLength && hasMaxLength },
+    { label: "No spaces", met: hasNoWhitespace },
     { label: "One uppercase, lowercase, and digit", met: hasUpperLowerDigit },
     { label: "One special character", met: hasSpecialChar },
   ];

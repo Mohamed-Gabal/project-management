@@ -1,12 +1,11 @@
 import { z } from "zod";
+import {
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_RULES,
+} from "./password-rules";
 
 const nameRegex = /^\p{L}+(?: \p{L}+)*$/u;
-
-const passwordUppercase = /[A-Z]/;
-const passwordLowercase = /[a-z]/;
-const passwordDigit = /[0-9]/;
-const passwordSpecialChar = /[!@#$%^&*(),.?":{}|<>_\-+=~`[\]/\\;']/;
-const passwordNoWhitespace = /^\S+$/;
 
 export const signUpSchema = z
   .object({
@@ -31,14 +30,20 @@ export const signUpSchema = z
 
     password: z
       .string()
-      .min(8, "Password must be at least 8 characters")
-      .max(64, "Password must not exceed 64 characters")
-      .regex(passwordNoWhitespace, "Password must not contain spaces")
-      .regex(passwordUppercase, "Must contain at least one uppercase letter")
-      .regex(passwordLowercase, "Must contain at least one lowercase letter")
-      .regex(passwordDigit, "Must contain at least one digit")
+      .min(PASSWORD_MIN_LENGTH, "Password must be at least 8 characters")
+      .max(PASSWORD_MAX_LENGTH, "Password must not exceed 64 characters")
+      .regex(PASSWORD_RULES.noWhitespace, "Password must not contain spaces")
       .regex(
-        passwordSpecialChar,
+        PASSWORD_RULES.uppercase,
+        "Must contain at least one uppercase letter",
+      )
+      .regex(
+        PASSWORD_RULES.lowercase,
+        "Must contain at least one lowercase letter",
+      )
+      .regex(PASSWORD_RULES.digit, "Must contain at least one digit")
+      .regex(
+        PASSWORD_RULES.specialChar,
         "Must contain at least one special character",
       ),
 
